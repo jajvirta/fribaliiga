@@ -1,6 +1,7 @@
 (ns testi.views
     (:require [re-frame.core :as re-frame]
               [re-com.core :as re-com]
+              [reagent.core :as reagent]
               [testi.taulukko :as taulukko]))
 
 (defn title []
@@ -8,7 +9,7 @@
     (fn []
       [re-com/title
        :style {:text-align "center"}
-       :label (str "Tampereen seudun frisbeegolf-liiga joukkueille")
+       :label (str "Tampereen frisbeegolf-liiga")
        :level :level1])))
 
 (defn navi-panel []
@@ -16,8 +17,12 @@
     [:div [:a {:href "/foo"} "bar"] [:p]]))
 
 (defn new-top-panel []
+  (let [text-val (reagent/atom "")]
   (fn []
-    [:div "hello world.."]))
+    [:div "hello world.."
+     ; resetin sijaan pitais tehda dispatch semmoseen metodiin joka paivittaa modelia
+     [re-com/input-text :model text-val :on-change #(reset! text-val %)]
+     ])))
 
 (defn sarjataulukko []
   (let [tilanne (re-frame/subscribe [:tilanne])]

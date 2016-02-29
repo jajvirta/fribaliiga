@@ -20,30 +20,26 @@
   [:div [:h2 "About testi"]
    [:div [:a {:href "/"} "go to the home page"]]])
 
+; tää pitäis kai tehdä niinku re-framen sivuilla suositellaan
+; mutta olkoon toistaiseksi näin
 (defn current-page []
   [:div [(session/get :current-page)]])
 
-;; -------------------------
-;; Routes
-
 (secretary/defroute "/" []
-  (session/put! :current-page #'home-page))
+  (session/put! :current-page #'views/top-panel))
 
 (secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
+  (session/put! :current-page #'views/new-top-panel))
 
-;; -------------------------
-;; Initialize app
-; original root
 ;(defn mount-root []
 ;  (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn mount-root []
-  (reagent/render [views/top-panel] 
+  (reagent/render [current-page] 
                   (.getElementById js/document "app")))
 
 (defn init! []
-  ;(accountant/configure-navigation!)
-  ;(accountant/dispatch-current!)
+  (accountant/configure-navigation!)
+  (accountant/dispatch-current!)
   (re-frame/dispatch-sync [:initialize-db])
   (mount-root))
