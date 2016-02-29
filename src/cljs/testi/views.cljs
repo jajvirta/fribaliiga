@@ -19,13 +19,10 @@
   (fn []
     [:div "hello world.."]))
 
-(defn top-panel []
-  (let [ready? (re-frame/subscribe [:initialized?])]
+(defn sarjataulukko []
+  (let [tilanne (re-frame/subscribe [:tilanne])]
     (fn []
-      (if-not @ready?
-        [:div [re-com/throbber] [re-com/button :label "boom" :on-click 
-                                 #(re-frame/dispatch [:load-from-backend])]]
-        [:div "Ready..."]))))
+      [taulukko/sarjataulukko @tilanne])))
 
 (defn main-panel []
   (fn []
@@ -36,5 +33,13 @@
        :height "100%"
        :children [[title] 
                   [navi-panel]
-                  [re-com/button :label "boom" :on-click (re-frame/dispatch-sync [:load-from-backend])]
+                  [sarjataulukko]
                   ]])))
+
+(defn top-panel []
+  (let [ready? (re-frame/subscribe [:initialized?])]
+    (fn []
+      (if-not @ready?
+        [:div [re-com/throbber] [re-com/button :label "boom" :on-click 
+                                 #(re-frame/dispatch [:load-from-backend])]]
+        [main-panel]))))
