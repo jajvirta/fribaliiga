@@ -1,7 +1,12 @@
 (ns testi.core
     (:require [reagent.core :as reagent :refer [atom]]
               [reagent.session :as session]
+              [re-frame.core :as re-frame]
               [secretary.core :as secretary :include-macros true]
+              [testi.views :as views]
+              [testi.config :as config]
+              [testi.handlers]
+              [testi.subs]
               [accountant.core :as accountant]))
 
 ;; -------------------------
@@ -29,11 +34,16 @@
 
 ;; -------------------------
 ;; Initialize app
+; original root
+;(defn mount-root []
+;  (reagent/render [current-page] (.getElementById js/document "app")))
 
 (defn mount-root []
-  (reagent/render [current-page] (.getElementById js/document "app")))
+  (reagent/render [views/top-panel] 
+                  (.getElementById js/document "app")))
 
 (defn init! []
-  (accountant/configure-navigation!)
-  (accountant/dispatch-current!)
+  ;(accountant/configure-navigation!)
+  ;(accountant/dispatch-current!)
+  (re-frame/dispatch-sync [:initialize-db])
   (mount-root))
