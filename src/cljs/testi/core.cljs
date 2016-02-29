@@ -8,7 +8,7 @@
 ;; Views
 
 (defn home-page []
-  [:div [:h2 "another testi"]
+  [:div [:h2 "2 testi"]
    [:div [:a {:href "/about"} "go to about page"]]])
 
 (defn about-page []
