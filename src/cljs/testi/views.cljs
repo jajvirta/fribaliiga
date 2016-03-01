@@ -31,15 +31,12 @@
 
 (defn main-panel []
   (fn []
-    (let [ready? (re-frame/subscribe [:initialized?])]
-      (if @ready? (println "ready") (println "not"))
-      (println (str "ready " ready?))
       [re-com/v-box
        :height "100%"
        :children [[title] 
                   [navi-panel]
                   [sarjataulukko]
-                  ]])))
+                  ]]))
 
 (defn top-panel []
   (let [ready? (re-frame/subscribe [:initialized?])]
