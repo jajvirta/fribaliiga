@@ -8,7 +8,7 @@
   (fn [db _]
     (println "processing")
     (ajax.core/GET
-      "/some/url"
+      "/number"
       {:handler #(re-frame/dispatch [:process-response %1])
        :error-handler #(re-frame/dispatch [:process-response %1])}
       )
@@ -19,8 +19,10 @@
   (fn 
     [db [_ response]]
     (println "boom")
+    (println response)
     (-> db
-      (assoc :results "hohu"))))
+      (assoc :results "hohu")
+      (assoc :number response))))
 
 (re-frame/register-handler
  :initialize-db
